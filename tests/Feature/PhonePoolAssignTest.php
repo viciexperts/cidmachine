@@ -132,9 +132,11 @@ class PhonePoolAssignTest extends TestCase
         $this->assertDatabaseCount('phone_pool_returns', 1);
 
         $ret = PhonePoolReturn::first();
-        $this->assertIsArray($ret->data);
-        $this->assertSame($record->id, $ret->data['id']);
-        $this->assertSame('8091234567', $ret->data['caller_id']);
-        $this->assertSame('809', $ret->data['area_code']);
+
+        $data = json_decode($ret->data);
+        $this->assertIsObject($data);
+        $this->assertSame($record->id, $data->id);
+        $this->assertSame('8091234567', $data->caller_id);
+        $this->assertSame('809', $data->area_code);
     }
 }
